@@ -1,0 +1,612 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Electronics Store{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'mainapp/reset.css' %}"> <!-- Include the reset.css file -->
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    {% block links %}
+    {% endblock %}
+    <style>
+
+        body {
+            font-family: "Montserrat", sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            height: 80px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        
+        .header__logo img {
+            height: 50px;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+        }
+        
+        nav li {
+            margin: 0 15px;
+            position: relative;
+        }
+        
+        nav a {
+            color: #333333;
+            text-decoration: none;
+            font-size: 17px;
+            position: relative;
+            display: inline-block;
+            padding: 10px 15px;
+            transition: color 0.3s;
+        }
+        
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff4500;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        nav a:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        nav a:hover {
+            color: #ff4500;
+        }
+        
+        .search-form {
+            display: flex;
+            align-items: center;
+            background-color: #f0f0f0;
+            border-radius: 30px;
+            padding: 5px;
+        }
+        
+        .search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: none;
+            border-radius: 30px;
+            overflow: hidden;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .search input[type="text"] {
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            background-color: transparent;
+            flex: 1;
+            outline: none;
+            color: #333333;
+            font-family: "Montserrat", sans-serif;
+        }
+        
+        .search input[type="text"]:focus {
+            color: #333333;
+        }
+        
+        .search button {
+            background-color: #ff4500;
+            color: #ffffff;
+            border: none;
+            height: 40px;
+            width: 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: "Montserrat", sans-serif;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 1px;
+            background-image: linear-gradient(to right, #ff4500, #ff6e40);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+            outline: none;
+        }
+        
+        .search button i {
+            transition: all 0.3s;
+        }
+        
+        .search button:hover {
+            background-color: #ff6e40;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search button:hover i {
+            transform: scale(1.2);
+        }
+        
+        .user-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-controls a {
+            color: #333333;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            margin-left: 15px;
+            position: relative;
+        }
+        
+        .user-controls a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff4500;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .user-controls a:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .user-controls a:hover {
+            color: #ff4500;
+        }
+        
+        footer {
+            height: 60px;
+            background-color: #333333;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        main.content {
+            flex: 1;
+        }
+        
+        /* Additional styles */
+        main.content h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        main.content p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        /* Боковая панель */
+        .menu-bar {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px 0;
+        }
+        
+        .menu-toggle {
+            display: none;
+            z-index: 3;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 10px;
+            background-color: transparent;
+            border: none;
+        }
+        
+        .menu-bar {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px 0;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 3;
+            scale: 2;
+        }
+        
+        .menu.hide {
+            animation-name: fadeOutModal;
+        }
+        
+        /* Медиа-запрос для экранов с шириной 1000px или меньше */
+        @media screen and (max-width: 1240px) {
+            .menu-toggle {
+                display: block;
+            }
+        
+            nav ul {
+                display: none;
+            }
+        
+            .modal.sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+        
+            .modal.sidebar.active {
+                transform: translateX(0);
+            }
+        }
+        
+        /* Анимация появления панели */
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Анимация исчезновения панели */
+        @keyframes fadeOutModal {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+        }
+        
+        /* Стили для боковой панели */
+        .modal.sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            transition: left 0.3s ease;
+        }
+        
+        .modal.sidebar.active {
+            left: 0;
+        }
+        
+        .close-btn {
+            font-size: 24px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 3;
+        }
+        
+        .menu {
+            list-style: none;
+            padding: 20px 0;
+            font-size: 45px;
+            border-top: 5px solid #333;
+            margin-top: 78px;
+        }
+        
+        .menu li {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .menu li:last-child {
+            border-bottom: none;
+        }
+        
+        .menu li a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 10px;
+        }
+        
+        .menu li i {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        
+        .submenu-toggle {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .submenu-toggle .fa-chevron-down {
+            position: absolute;
+            right: 10px;
+            font-size: 12px;
+            transform: rotate(90deg);
+        }
+        
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 10px;
+            min-width: 180px;
+        }
+        
+        .submenu.active {
+            display: block;
+        }
+        
+        .submenu li {
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submenu li:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .submenu li a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .submenu li i {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 10px;
+            min-width: 180px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease;
+        }
+        
+        
+        .submenu.active {
+            display: block;
+            max-height: 200px;
+            opacity: 1;
+        }
+        
+        .submenu li {
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submenu li:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .submenu li a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .submenu li i {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        .submenu-toggle {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .submenu-toggle .fa-chevron-down {
+            position: absolute;
+            right: 10px;
+            font-size: 12px;
+            transform: rotate(90deg);
+        }
+        
+        .menu-toggle.active .menu-bar:nth-child(2) {
+            opacity: 0;
+          }
+          
+          .menu-toggle.active .menu-bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+          }
+          
+          .menu-toggle.active .menu-bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+          }
+    
+        {% block styles %}
+        {% endblock %}
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="header__logo">
+            <img src="https://www.w3schools.com/images/w3schools_logo.png" alt="Logo">
+        </div>
+        <div class="menu-toggle">
+            <div class="menu-bar"></div>
+            <div class="menu-bar"></div>
+            <div class="menu-bar"></div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="search-form">
+            <form action="/search" method="GET">
+                <div class="search">
+                    <input type="text" id="search-input" name="q" placeholder="Search for products">
+                    <button type="submit" title="Search"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+        </div>
+        <div class="user-controls">
+            <a href="#"><i class="fas fa-user"></i>Your account</a>
+            <a href="#"><i class="fas fa-shopping-cart"></i> 9567.60 $</a>
+        </div>
+    </header>
+
+    <main class="content">
+        {% block contents %}
+        {% endblock %}
+    </main>
+    <footer class="footer">
+        <p>© 2023 Electronics Store. All rights reserved.</p>
+    </footer>
+</div>
+
+<div class="modal sidebar">
+    <button class="close-btn">&times;</button>
+    <ul class="menu">
+      <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
+      <li class="submenu-toggle">
+        <a href="#"><i class="fas fa-list-ul"></i>Products & Services</a>
+        <i class="fas fa-chevron-down"></i>
+        <ul class="submenu">
+          <li><a href="#"><i class="fas fa-tv"></i>Electronics</a></li>
+          <ul class="submenu">
+            <li><a href="#"><i class="fas fa-tv"></i>Electronics</a></li>
+            <li><a href="#"><i class="fas fa-laptop"></i>Laptops</a></li>
+            <li><a href="#"><i class="fas fa-mobile-alt"></i>Mobile Phones</a></li>
+          </ul>
+          <li><a href="#"><i class="fas fa-laptop"></i>Laptops</a></li>
+          <li><a href="#"><i class="fas fa-mobile-alt"></i>Mobile Phones</a></li>
+        </ul>
+      </li>
+      <li><a href="#"><i class="fas fa-shopping-cart"></i>Cart</a></li>
+    </ul>
+  </div>
+
+
+<script>
+    const sidebarModal = document.querySelector('.modal.sidebar');
+
+
+
+    
+
+    function toggleSidebar() {
+        sidebarModal.classList.toggle('active');
+        if (sidebarModal.classList.contains('active')) {
+            disableScroll();
+        } else {
+            enableScroll();
+        }
+    }
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    menuToggle.addEventListener('click', toggleSidebar);
+
+    const closeBtn = document.querySelector('.close-btn');
+    closeBtn.addEventListener('click', () => {
+        sidebarModal.classList.add('hide');
+        setTimeout(() => {
+            sidebarModal.classList.remove('active');
+            sidebarModal.classList.remove('hide');
+            enableScroll(); // Разблокируем прокрутку при закрытии окна
+        }, 300);
+    });
+</script>
+
+<script>
+    const submenuToggle = document.querySelector(".submenu-toggle");
+
+submenuToggle.addEventListener("click", function (event) {
+    event.preventDefault();
+    const submenu = this.querySelector(".submenu");
+    submenu.classList.toggle("active");
+});
+</script>
+
+<script>
+    const menuItems = document.querySelectorAll('.menu li');
+  
+    menuItems.forEach(item => {
+      item.addEventListener('mouseover', () => {
+        const submenu = item.querySelector('.submenu');
+        if (submenu) {
+          submenu.classList.add('active');
+        }
+      });
+  
+      item.addEventListener('mouseout', () => {
+        const submenu = item.querySelector('.submenu');
+        if (submenu) {
+          submenu.classList.remove('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
