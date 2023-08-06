@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qvnf8$!2q1#&*9d4xdf6w5q^391ah484e0tahvbv2@_c@nkdv&'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mptt',
+    'autoslug',
     'mainapp',
 ]
 
@@ -122,3 +126,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Конфигурация медиафайлов
+
+# MEDIA_URL - URL-префикс для обслуживания медиафайлов (загруженных файлов, таких как изображения).
+# Когда медиафайлы запрашиваются через браузер, Django будет использовать этот URL-префикс для поиска и обслуживания
+# соответствующих медиафайлов. Например, если MEDIA_URL установлен как '/media/', и у вас есть изображение с именем 'example.jpg',
+# оно будет доступно по адресу 'http://ваш_домен/media/example.jpg'.
+MEDIA_URL = '/media/'
+
+# MEDIA_ROOT - Абсолютный путь к папке, где хранятся медиафайлы на сервере.
+# Django будет сохранять все загруженные медиафайлы в этой папке.
+# Например, если MEDIA_ROOT установлен как 'путь_до_вашего_проекта/media/',
+# загруженные изображения будут храниться в папке 'путь_до_вашего_проекта/media/category_images/' (согласно настройке upload_to в модели Category).
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
