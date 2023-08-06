@@ -2,11 +2,13 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from mainapp.views import index_page_view
+from catalogApp.views import index_page_view
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_page_view),
+    path('category/', include('catalogApp.urls')),
 ]
 # Добавьте этот код, чтобы указать маршрут для статических файлов
 if settings.DEBUG:

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'mptt',
     'autoslug',
     'mainapp',
+    'catalogApp'
 ]
 
 MIDDLEWARE = [
