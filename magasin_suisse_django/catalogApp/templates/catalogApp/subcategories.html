@@ -1,5 +1,13 @@
 {% extends 'mainapp/base.html' %}
 
+
+{% block links %}
+
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+{% endblock %}
+
+
 {% block styles %}
 .categories-container {
     display: flex;
@@ -56,9 +64,96 @@
     transform: translateY(0);
 }
 
+
+/* Стили для слайдера */
+.swiper {
+    width: 100%;
+    z-index: 0;
+    background-color: #f0f0f0;
+}
+
+.swiper-wrapper {
+    width: 100%;
+}
+
+.swiper-slide {
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #333333;
+}
+
+/* Если нужны точки пагинации, измените их стили здесь */
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: #888888;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #ff4500;
+}
+
+/* Если нужны кнопки навигации, измените их стили здесь */
+.swiper-button-prev,
+.swiper-button-next {
+    color: #333333;
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    color: #ff4500;
+}
+
+/* Если нужен скроллбар, измените его стили здесь */
+.swiper-scrollbar {
+    background-color: #f0f0f0;
+}
+
+.swiper-scrollbar-drag {
+    background-color: #888888;
+}
+
+
 {% endblock styles %}
 
 {% block contents %}
+
+<div class="swiper">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+      <!-- Slides -->
+      <div class="swiper-slide" style="background-image: url('https://via.placeholder.com/1050')"></div>
+      <div class="swiper-slide" style="background-image: url('https://via.placeholder.com/150')"></div>
+      <!-- Add more slides here -->
+    </div>
+    <!-- If we need pagination -->
+    <div class="swiper-pagination"></div>
+
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+    <!-- If we need scrollbar -->
+    <div class="swiper-scrollbar"></div>
+</div>
+
     <h1>Subcategories</h1>
     {% if subcategories %}
     
@@ -73,4 +168,38 @@
         {% endfor %}
         {% endif %}
     </div>
+
+
+<!-- Include Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    // Используем самозапускающуюся функцию для избежания конфликтов с другими скриптами
+    (function() {
+        // Инициализируем Swiper
+        const swiper = new Swiper('.swiper', {
+            // Основные параметры
+            loop: true, // Зацикливание слайдов
+            slidesPerView: 1, // Количество видимых слайдов
+            spaceBetween: 20, // Расстояние между слайдами (в пикселях)
+            speed: 500, // Скорость переключения слайдов (в миллисекундах)
+            // Пагинация
+            pagination: {
+                el: '.swiper-pagination', // Элемент для пагинации
+                clickable: true, // Включить возможность переключения слайдов через пагинацию
+            },
+            // Навигация стрелками
+            navigation: {
+                nextEl: '.swiper-button-next', // Элемент для кнопки "Следующий слайд"
+                prevEl: '.swiper-button-prev', // Элемент для кнопки "Предыдущий слайд"
+            },
+            // Скроллбар
+            scrollbar: {
+                el: '.swiper-scrollbar', // Элемент для скроллбара
+            },
+        });
+    })();
+</script>
+
+
+
 {% endblock %}
