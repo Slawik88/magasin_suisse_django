@@ -1,6 +1,11 @@
 from django.db import models
 
 # Create your models here.
+from django.contrib.auth import get_user_model
+from django.db import models
+from django.urls import reverse
+from mptt.models import MPTTModel, TreeForeignKey
+from django import forms
 
 from django.db import models
 from mptt.fields import TreeForeignKey
@@ -36,6 +41,13 @@ class Category(MPTTModel):
 
     def __str__(self):
         return self.category_name
+    
+    def  get_absolute_url(self):
+        breadcrumbs = self.get_ancestors(include_self=True)
+        url_parts = [breadcrumb.category_name for breadcrumb in breadcrumbs]
+        return reverse('get_categoris_and_subcategories', kwargs={'category_slug': self.category_slug})
 # class Product(models.Model):
 
 
+class Swiper(models.Model):
+    image = models.ImageField( upload_to='images/swiper_images/' ,verbose_name='Зображення на слайдер' , help_text='1400x400')

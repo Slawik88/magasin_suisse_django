@@ -1,0 +1,5 @@
+@register.inclusion_tag('catalog/template_tags/breadcrumb.html')
+def catalog_breadcrumb(category):
+    return {
+        'category': category
+    }

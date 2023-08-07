@@ -7,7 +7,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index_page_view),
+    path('', index_page_view, name='home'),
     path('category/', include('catalogApp.urls')),
 ]
 # Добавьте этот код, чтобы указать маршрут для статических файлов

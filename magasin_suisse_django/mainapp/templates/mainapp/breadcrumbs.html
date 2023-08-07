@@ -1,0 +1,10 @@
+
+
+
+
+<ul>
+    {% for parent in category.get_ancestors %}
+        <li><a href="/catalog/{{ parent.category_slug }}/">{{ parent.category_name }}</a></li>
+    {% endfor %}
+    <li><a href="/catalog/{{ category.category_slug }}/">{{ category.category_name }}</a></li>
+</ul>

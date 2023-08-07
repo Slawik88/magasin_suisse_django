@@ -28,6 +28,39 @@
             flex-direction: column;
             min-height: 100vh;
         }
+
+        .category-path {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #555;
+            margin-top: 20px;
+        }
+        
+        .category-path__link {
+            text-decoration: none;
+            color: #555;
+            transition: color 0.2s ease;
+        }
+        
+        .category-path__link::before {
+            content: "›"; /* Иконка разделителя (можно изменить на любой другой символ) */
+            margin: 0 8px;
+            color: #ccc;
+        }
+        
+        .category-path__link:first-child::before {
+            content: ""; /* Убрать разделитель для первой ссылки */
+        }
+        
+        .category-path__link:hover {
+            color: #007bff; /* Измените цвет при наведении, если нужно */
+        }
+        
+        .category-path__current {
+            font-weight: bold;
+            color: #333;
+        }
         
         header {
             height: 80px;
@@ -215,285 +248,51 @@
             line-height: 1.6;
         }
         
-        /* Боковая панель */
-        .menu-bar {
-            width: 25px;
-            height: 3px;
-            background-color: #333;
-            margin: 5px 0;
-        }
-        
-        .menu-toggle {
+        .top-nav {
             display: none;
-            z-index: 3;
-            cursor: pointer;
-            font-size: 20px;
-            padding: 10px;
-            background-color: transparent;
-            border: none;
         }
-        
-        .menu-bar {
-            width: 25px;
-            height: 3px;
-            background-color: #333;
-            margin: 5px 0;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            z-index: 3;
-            scale: 2;
-        }
-        
-        .menu.hide {
-            animation-name: fadeOutModal;
-        }
-        
         /* Медиа-запрос для экранов с шириной 1000px или меньше */
-        @media screen and (max-width: 1240px) {
-            .menu-toggle {
+        @media screen and (max-width: 1240px) {        
+            header nav ul {
+                display: none;
+            }
+            .top-nav {
                 display: block;
             }
         
-            nav ul {
-                display: none;
+            .top-nav__menu {
+                display: flex;
+
+                align-items: center;
             }
         
-            .modal.sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-        
-            .modal.sidebar.active {
-                transform: translateX(0);
+            .top-nav__item {
+                margin: 10px 0;
             }
         }
         
-        /* Анимация появления панели */
-        @keyframes fadeInModal {
-            from {
-                opacity: 0;
-                transform: translateX(-100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        /* Анимация исчезновения панели */
-        @keyframes fadeOutModal {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(-100%);
-            }
-        }
-        
-        /* Стили для боковой панели */
-        .modal.sidebar {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            z-index: 2;
-            transition: left 0.3s ease;
-        }
-        
-        .modal.sidebar.active {
-            left: 0;
-        }
-        
-        .close-btn {
-            font-size: 24px;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 3;
-        }
-        
-        .menu {
-            list-style: none;
-            padding: 20px 0;
-            font-size: 45px;
-            border-top: 5px solid #333;
-            margin-top: 78px;
-        }
-        
-        .menu li {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        
-        .menu li:last-child {
-            border-bottom: none;
-        }
-        
-        .menu li a {
-            text-decoration: none;
-            color: #333;
-            margin-left: 10px;
-        }
-        
-        .menu li i {
-            font-size: 18px;
-            margin-right: 10px;
-        }
-        
-        .submenu-toggle {
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .submenu-toggle .fa-chevron-down {
-            position: absolute;
-            right: 10px;
-            font-size: 12px;
-            transform: rotate(90deg);
-        }
-        
-        .submenu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #f0f0f0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            padding: 10px;
-            min-width: 180px;
-        }
-        
-        .submenu.active {
-            display: block;
-        }
-        
-        .submenu li {
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.3s ease;
-        }
-        
-        .submenu li:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .submenu li a {
-            color: #333;
-            text-decoration: none;
-            display: block;
-        }
-        
-        .submenu li i {
-            font-size: 16px;
-            margin-right: 10px;
-        }
-        
-        .submenu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #f0f0f0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            padding: 10px;
-            min-width: 180px;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, opacity 0.2s ease;
-        }
+
         
         
-        .submenu.active {
-            display: block;
-            max-height: 200px;
-            opacity: 1;
-        }
-        
-        .submenu li {
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.3s ease;
-        }
-        
-        .submenu li:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .submenu li a {
-            color: #333;
-            text-decoration: none;
-            display: block;
-        }
-        
-        .submenu li i {
-            font-size: 16px;
-            margin-right: 10px;
-        }
-        
-        .submenu-toggle {
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .submenu-toggle .fa-chevron-down {
-            position: absolute;
-            right: 10px;
-            font-size: 12px;
-            transform: rotate(90deg);
-        }
-        
-        .menu-toggle.active .menu-bar:nth-child(2) {
-            opacity: 0;
-          }
-          
-          .menu-toggle.active .menu-bar:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-          }
-          
-          .menu-toggle.active .menu-bar:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-          }
-    
+
         {% block styles %}
         {% endblock %}
     </style>
 </head>
 <body>
 <div class="wrapper">
+    <nav class="top-nav"> 
+        <ul class="top-nav__menu">
+            <li class="top-nav__item"><a class="nav-menu__link" href="#">Home</a></li>
+            <li class="top-nav__item"><a class="nav-menu__link" href="#">About Us</a></li>
+            <li class="top-nav__item"><a class="nav-menu__link" href="#">Contact</a></li>
+        </ul>
+    </nav>
     <header>
         <div class="header__logo">
             <img src="https://www.w3schools.com/images/w3schools_logo.png" alt="Logo">
         </div>
-        <div class="menu-toggle">
-            <div class="menu-bar"></div>
-            <div class="menu-bar"></div>
-            <div class="menu-bar"></div>
-        </div>
+    
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
@@ -515,7 +314,10 @@
         </div>
     </header>
 
+
     <main class="content">
+
+
         {% block contents %}
         {% endblock %}
     </main>
@@ -525,90 +327,6 @@
 </div>
  
 
-<div class="modal sidebar">
-    <button class="close-btn">&times;</button>
-    <ul class="menu">
-      <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
-      <li class="submenu-toggle">
-        <a href="#"><i class="fas fa-list-ul"></i>Products & Services</a>
-        <i class="fas fa-chevron-down"></i>
-        <ul class="submenu">
-          <li><a href="#"><i class="fas fa-tv"></i>Electronics</a></li>
-          <ul class="submenu">
-            <li><a href="#"><i class="fas fa-tv"></i>Electronics</a></li>
-            <li><a href="#"><i class="fas fa-laptop"></i>Laptops</a></li>
-            <li><a href="#"><i class="fas fa-mobile-alt"></i>Mobile Phones</a></li>
-          </ul>
-          <li><a href="#"><i class="fas fa-laptop"></i>Laptops</a></li>
-          <li><a href="#"><i class="fas fa-mobile-alt"></i>Mobile Phones</a></li>
-        </ul>
-      </li>
-      <li><a href="#"><i class="fas fa-shopping-cart"></i>Cart</a></li>
-    </ul>
-  </div>
-
-
-
-
-<script>
-    const sidebarModal = document.querySelector('.modal.sidebar');
-
-
-
-    
-
-    function toggleSidebar() {
-        sidebarModal.classList.toggle('active');
-        if (sidebarModal.classList.contains('active')) {
-            disableScroll();
-        } else {
-            enableScroll();
-        }
-    }
-
-    const menuToggle = document.querySelector('.menu-toggle');
-    menuToggle.addEventListener('click', toggleSidebar);
-
-    const closeBtn = document.querySelector('.close-btn');
-    closeBtn.addEventListener('click', () => {
-        sidebarModal.classList.add('hide');
-        setTimeout(() => {
-            sidebarModal.classList.remove('active');
-            sidebarModal.classList.remove('hide');
-            enableScroll(); // Разблокируем прокрутку при закрытии окна
-        }, 300);
-    });
-</script>
-
-<script>
-    const submenuToggle = document.querySelector(".submenu-toggle");
-
-submenuToggle.addEventListener("click", function (event) {
-    event.preventDefault();
-    const submenu = this.querySelector(".submenu");
-    submenu.classList.toggle("active");
-});
-</script>
-
-<script>
-    const menuItems = document.querySelectorAll('.menu li');
-  
-    menuItems.forEach(item => {
-      item.addEventListener('mouseover', () => {
-        const submenu = item.querySelector('.submenu');
-        if (submenu) {
-          submenu.classList.add('active');
-        }
-      });
-  
-      item.addEventListener('mouseout', () => {
-        const submenu = item.querySelector('.submenu');
-        if (submenu) {
-          submenu.classList.remove('active');
-        }
-      });
-    });
-  </script>
 
 </body>
 </html>

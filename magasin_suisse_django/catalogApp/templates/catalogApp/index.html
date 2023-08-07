@@ -152,8 +152,10 @@ Electronics Store - Home
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
       <!-- Slides -->
-      <div class="swiper-slide" style="background-image: url('https://via.placeholder.com/1050')"></div>
-      <div class="swiper-slide" style="background-image: url('https://via.placeholder.com/150')"></div>
+      {% for swiper_image in swiper_images %}
+    
+      <div class="swiper-slide" style="background-image: url('{{ swiper_image.image.url }}')"></div>
+      {% endfor %}
       <!-- Add more slides here -->
     </div>
     <!-- If we need pagination -->
@@ -166,7 +168,6 @@ Electronics Store - Home
     <!-- If we need scrollbar -->
     <div class="swiper-scrollbar"></div>
 </div>
-
 
 
 
