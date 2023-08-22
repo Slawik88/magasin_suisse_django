@@ -40,10 +40,10 @@ def get_categoris_and_subcategories_and_product(request, category_slug):
 
 def product_details_page(request, product_slug):
         
-    products = Product.objects.filter(product_slug=product_slug)
+    product = get_object_or_404(Product, product_slug=product_slug)
 
     context = {
-        'products': products,
+        'product': product,  # Use 'product' instead of 'products'
     }
 
     return render(request, 'catalogApp/product_detail.html', context=context)

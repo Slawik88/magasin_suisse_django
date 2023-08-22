@@ -3,7 +3,6 @@ from autoslug import AutoSlugField
 from django.db import models
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
-from multiupload.fields import MultiFileField
 
 
 # Create your models here.
@@ -57,35 +56,35 @@ class Product(models.Model):
                                            verbose_name="Зображення до товару",
                                            help_text="Завантажте зображення для товару")
     product_image_1 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 1",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 1",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_2 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 2",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 2",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_3 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 3",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 3",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_4 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 4",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 4",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_5 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 5",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 5",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_6 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 6",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 6",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_7 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 7",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 7",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_8 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 8",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 8",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_9 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 9",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                        verbose_name="Зображення 9",
+                                        help_text="Додаткове зображення до товару", blank=True)
     product_image_10 = models.ImageField(upload_to='images/product_main_image/%Y/%m/%d/',
-                                           verbose_name="Зображення 10",
-                                           help_text="Додаткове зображення до товару", blank=True)
+                                         verbose_name="Зображення 10",
+                                         help_text="Додаткове зображення до товару", blank=True)
 
     product_price = models.IntegerField(verbose_name='Ціна')
     product_discount_price = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
@@ -105,12 +104,20 @@ class Product(models.Model):
                                                verbose_name="Дата створення продукту")
     product_time_update = models.DateTimeField(auto_now=True,
                                                help_text="Відображає дату оновлення товару\nНіде не відображається тільки для адмінів*",
-                                               verbose_name="Дата оновлення продукту",)
+                                               verbose_name="Дата оновлення продукту", )
+
+    product_details = models.TextField(max_length="999", verbose_name="Додаткова інформація", help_text="Вы можете указати колір або розмір ")
+
+
+
+
+
 
     def get_absolute_url(self):
         breadcrumbs = self.get_ancestors(include_self=True)
         url_parts = [breadcrumb.category_name for breadcrumb in breadcrumbs]
         return reverse('product_detail', kwargs={'product_slug': self.product_slug})
+
     class MPTTMeta:
         order_insertion_by = ['product_name']
 
@@ -119,7 +126,6 @@ class Product(models.Model):
             return self.product_discount_price
         else:
             return self.product_price
-
 
 
 class Swiper(models.Model):
