@@ -281,7 +281,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <nav class="top-nav"> 
+    <nav class="top-nav">
         <ul class="top-nav__menu">
             <li class="top-nav__item"><a class="nav-menu__link" href="#">Home</a></li>
             <li class="top-nav__item"><a class="nav-menu__link" href="#">About Us</a></li>
@@ -292,10 +292,10 @@
         <div class="header__logo">
             <img src="https://www.w3schools.com/images/w3schools_logo.png" alt="Logo">
         </div>
-    
+
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="#">About Us</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
@@ -309,8 +309,13 @@
             </form>
         </div>
         <div class="user-controls">
-            <a href="#"><i class="fas fa-user"></i>Your account</a>
-            <a href="#"><i class="fas fa-shopping-cart"></i> 9567.60 $</a>
+            <a href="#"><i class="fas fa-user"></i>{{ username|default:"Your account" }}</a>
+            <a href="{% url 'cart' %}">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-total-amount">{{ cart_total }}</span> $
+            </a>
+
+
         </div>
     </header>
 
@@ -325,8 +330,7 @@
         <p>© 2023 Electronics Store. All rights reserved.</p>
     </footer>
 </div>
- 
-ч
+
 
 </body>
 </html>

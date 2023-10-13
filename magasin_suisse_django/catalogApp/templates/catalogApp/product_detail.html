@@ -2,214 +2,219 @@
 
 {% block contents %}
 <style>
-
-    .product-page {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        margin-top: 50px;
+    /* CSS для анімації пульсації */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
     }
-
-    .product-content {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-    }
-
-    .thumbnail-gallery {
-        display: flex;
-        gap: 10px;
-        max-width: 800px;
-        overflow-x: auto;
-
-    }
-
-    .thumbnail {
-        flex: 0 0 160px;
-        width: 160px;
-        height: 150px;
-        object-fit: cover;
-        cursor: pointer;
-        border: 2px solid transparent;
-        transition: border-color 0.3s ease;
-    }
-
-    .thumbnail.active {
-        border-color: #ff5722;
-    }
-
-    .product-main-image {
-        width: 810px;
-        height: auto;
-        max-height: 440px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .product-main-image img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        width: 100%;
-    }
-
-    .product-info {
-        text-align: justify;
-        background-color: #f5f5f5;
-        padding: 20px 35px;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-name {
-        font-size: 24px;
-        margin: 5px 0;
-        color: #333;
-    }
-
-    .product-article,
-    .product-price,
-    .discounted-price,
-    .product-category {
-        margin: 3px 0;
-        color: #666;
-        font-size: 16px;
-    }
-
-    .product-price {
-        font-weight: bold;
-        color: #ff5722;
-    }
-
-    .discounted-price {
-        color: #999;
-        text-decoration: line-through;
-    }
-
-    .product-category {
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .primary-button,
-    .secondary-button {
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        margin: 0 10px;
-    }
-
-    .primary-button {
-        background-color: #ff5722;
-        color: #fff;
-    }
-
-    .secondary-button {
-        background-color: #f5f5f5;
-        color: #333;
-        border: 1px solid #ccc;
-    }
-
-    .primary-button:hover,
-    .secondary-button:hover {
-        background-color: #f44336;
-    }
-
-    .primary-button:focus,
-    .secondary-button:focus {
-        outline: none;
-    }
-
-    .button-container .primary-button:last-child {
-        margin-right: 0;
-    }
-
-    .product-description {
-        margin-top: 20px;
-        text-align: justify;
-    }
-
-    .additional-info {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding-bottom: 100px;
-    }
-
-    .additional-info h2 {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-
-    .additional-details {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-
-    .additional-details p {
-        flex: 0 1 calc(50% - 7.5px);
-        color: #666;
-        font-size: 14px;
-        border: 1px solid #e0e0e0;
-        padding: 10px;
-        border-radius: 5px;
-        background-color: #f5f5f5;
-        text-align: center;
-    }
-
-    .product-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 20px;
-        background-color: #f5f5f5;
-        border: 1px solid #e0e0e0;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    .payment-methods {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .payment-method label {
-        cursor: pointer;
-    }
-
-    .buy-button {
-        background-color: #ff5722;
-        color: #fff;
-        border: none;
-        padding: 8px 15px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .buy-button:hover {
-        background-color: #f44336;
-    }
-
-    /* Адаптивные стили для мобильных устройств */
-    @media (max-width: 1300px) {
         .product-page {
-            display: grid;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 50px;
         }
-    }
-    
+
+        .product-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 10px;
+            max-width: 800px;
+            overflow-x: auto;
+
+        }
+
+        .thumbnail {
+            flex: 0 0 160px;
+            width: 160px;
+            height: 150px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .thumbnail.active {
+            border-color: #ff5722;
+        }
+
+        .product-main-image {
+            width: 810px;
+            height: auto;
+            max-height: 440px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .product-main-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            width: 100%;
+        }
+
+        .product-info {
+            text-align: justify;
+            background-color: #f5f5f5;
+            padding: 20px 35px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-name {
+            font-size: 24px;
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .product-article,
+        .product-price,
+        .discounted-price,
+        .product-category {
+            margin: 3px 0;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: #ff5722;
+        }
+
+        .discounted-price {
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .product-category {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .primary-button {
+            background-color: #ff5722;
+            color: #fff;
+        }
+
+        .secondary-button {
+            background-color: #f5f5f5;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover {
+            background-color: #f44336;
+        }
+
+        .primary-button:focus,
+        .secondary-button:focus {
+            outline: none;
+        }
+
+        .button-container .primary-button:last-child {
+            margin-right: 0;
+        }
+
+        .product-description {
+            margin-top: 20px;
+            text-align: justify;
+        }
+
+        .additional-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-bottom: 100px;
+        }
+
+        .additional-info h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .additional-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .additional-details p {
+            flex: 0 1 calc(50% - 7.5px);
+            color: #666;
+            font-size: 14px;
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .payment-method label {
+            cursor: pointer;
+        }
+
+        .buy-button {
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background-color: #f44336;
+        }
+
+        /* Адаптивные стили для мобильных устройств */
+        @media (max-width: 1300px) {
+            .product-page {
+                display: grid;
+            }
+        }
+
 </style>
 
 <div class="product-page">
@@ -218,19 +223,35 @@
             <img src="{{ product.product_main_image.url }}" alt="{{ product.product_name }}">
         </div>
         <div class="thumbnail-gallery">
-
-            {% if product.product_main_image %}
+            {% if product.product_image_1 %}
             <img class="thumbnail active" src="{{ product.product_image_1.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_2.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_3.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_4.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_5.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_6.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_7.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_8.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_9.url }}" alt="Thumbnail 1">
-            <img class="thumbnail active" src="{{ product.product_image_10.url }}" alt="Thumbnail 1">
-
+            {% endif %}
+            {% if product.product_image_2 %}
+            <img class="thumbnail active" src="{{ product.product_image_2.url }}" alt="Thumbnail 2">
+            {% endif %}
+            {% if product.product_image_3 %}
+            <img class="thumbnail active" src="{{ product.product_image_3.url }}" alt="Thumbnail 3">
+            {% endif %}
+            {% if product.product_image_4 %}
+            <img class="thumbnail active" src="{{ product.product_image_4.url }}" alt="Thumbnail 4">
+            {% endif %}
+            {% if product.product_image_5 %}
+            <img class="thumbnail active" src="{{ product.product_image_5.url }}" alt="Thumbnail 5">
+            {% endif %}
+            {% if product.product_image_6 %}
+            <img class="thumbnail active" src="{{ product.product_image_6.url }}" alt="Thumbnail 6">
+            {% endif %}
+            {% if product.product_image_7 %}
+            <img class="thumbnail active" src="{{ product.product_image_7.url }}" alt="Thumbnail 7">
+            {% endif %}
+            {% if product.product_image_8 %}
+            <img class="thumbnail active" src="{{ product.product_image_8.url }}" alt="Thumbnail 8">
+            {% endif %}
+            {% if product.product_image_9 %}
+            <img class="thumbnail active" src="{{ product.product_image_9.url }}" alt="Thumbnail 9">
+            {% endif %}
+            {% if product.product_image_10 %}
+            <img class="thumbnail active" src="{{ product.product_image_10.url }}" alt="Thumbnail 10">
             {% endif %}
         </div>
     </div>
@@ -245,7 +266,11 @@
             <p class="product-category">Категория: {{ product.product_category }}</p>
             <div class="button-container">
                 <button class="primary-button">Buy</button>
-                <button class="secondary-button">Add to Basket</button>
+                <button class="secondary-button" id="add-to-basket-button"
+                        data-product-slug="{{ product.product_slug }}">Add to Basket
+                </button>
+
+
             </div>
 
         </div>
@@ -262,24 +287,71 @@
     </div>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    var mainImageUrl = $(".product-main-image img").attr("src");
+    $(document).ready(function() {
+        var mainImageUrl = $(".product-main-image img").attr("src");
 
-    $(".thumbnail-gallery .thumbnail").click(function(e) {
-        e.preventDefault();
-        var newImageUrl = $(this).attr("src");
-        $(".product-main-image img").attr("src", newImageUrl);
-        $(".thumbnail").removeClass("active");
-        $(this).addClass("active");
+        $(".thumbnail-gallery .thumbnail").click(function(e) {
+            e.preventDefault();
+            var newImageUrl = $(this).attr("src");
+            $(".product-main-image img").attr("src", newImageUrl);
+            $(".thumbnail").removeClass("active");
+            $(this).addClass("active");
+        });
+
+        $(".product-main-image img").click(function() {
+            $(".product-main-image img").attr("src", mainImageUrl);
+            $(".thumbnail").removeClass("active");
+        });
     });
 
-    $(".product-main-image img").click(function() {
-        $(".product-main-image img").attr("src", mainImageUrl);
-        $(".thumbnail").removeClass("active");
+
+    // Перезавантаження сторінки при натисканні на кнопку "Add to Basket"
+    function reloadPage() {
+        location.reload(); // Перезавантажити поточну сторінку
+    }
+
+    // Отримайте кнопку "Add to Basket"
+    const addToBasketButton = document.getElementById('add-to-basket-button');
+
+    // Додайте обробник подій при натисканні на кнопку "Add to Basket"
+    addToBasketButton.addEventListener('click', () => {
+        // Отримайте слаг продукта з атрибуту data-product-slug
+        const productSlug = addToBasketButton.getAttribute('data-product-slug');
+
+        // Сформуйте URL-шлях для додавання продукта в корзину
+        const addToCartURL = `/cart/add_to_cart_by_slug/${productSlug}/`;
+
+        // Отправте запит на сервер, щоб додати продукт в корзину
+        fetch(addToCartURL, {
+            method: 'GET', // або 'POST', в залежності від вашої реалізації на сервері
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            // Ви можете додати тіло запиту, якщо це необхідно
+            // body: JSON.stringify({ productSlug: productSlug })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Оновіть інтерфейс, щоб відобразити, що товар доданий в корзину
+                addToBasketButton.textContent = 'Added to Basket';
+                addToBasketButton.disabled = true; // Заблокуйте кнопку
+
+                // Перезавантажте сторінку після успішного додавання товару
+                setTimeout(() => {
+                    reloadPage();
+                }, 1); // Почекайте 1 секунду перед перезавантаженням сторінки
+            }
+        })
+        .catch(error => {
+            console.error('Помилка:', error);
+        });
     });
-});
+
+
 </script>
 {% endblock contents %}
 

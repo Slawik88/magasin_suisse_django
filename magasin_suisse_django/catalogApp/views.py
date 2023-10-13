@@ -47,3 +47,4 @@ def product_details_page(request, product_slug):
     }
 
     return render(request, 'catalogApp/product_detail.html', context=context)
+

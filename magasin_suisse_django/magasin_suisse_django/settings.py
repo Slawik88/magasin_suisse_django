@@ -17,20 +17,17 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = config('SECRET_KEY')
-SECRET_KEY ='django-insecure-qvnf8$!2q1#&*9d4xdf6w5q^391ah484e0tahvbv2@_c@nkdv&'
+SECRET_KEY = 'django-insecure-qvnf8$!2q1#&*9d4xdf6w5q^391ah484e0tahvbv2@_c@nkdv&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -45,7 +42,8 @@ INSTALLED_APPS = [
     'autoslug',
     'multiupload',
     'mainapp',
-    'catalogApp'
+    'catalogApp',
+    'cartApp',
 ]
 
 MIDDLEWARE = [
@@ -71,13 +69,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mainapp.context_processors.cart_total',
+                'mainapp.context_processors.get_username',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'magasin_suisse_django.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -107,7 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -119,7 +117,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -129,7 +126,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # Конфигурация медиафайлов
 

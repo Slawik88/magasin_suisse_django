@@ -47,6 +47,8 @@ class Category(MPTTModel):
 
 
 class Product(models.Model):
+
+    product_id = models.AutoField(primary_key=True, unique=True, verbose_name='ID товара')
     product_article = models.IntegerField(db_index=True, verbose_name='Артикул',
                                           help_text='Артикль МОЖЕ повторюватись.')
 
@@ -111,7 +113,8 @@ class Product(models.Model):
 
 
 
-
+    def __str__(self):
+        return f'{self.product_article} - {self.product_name}'
 
     def get_absolute_url(self):
         breadcrumbs = self.get_ancestors(include_self=True)
