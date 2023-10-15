@@ -5,7 +5,8 @@
 
 {% block styles %}
 
-/* Styles for the "Оформить заказ" button */
+
+/* Styles for the "Checkout" button */
 .checkout-button {
     background-color: #4caf50;
     color: white;
@@ -63,7 +64,8 @@
 .cart-item__name {
     font-weight: bold;
     font-size: 24px;
-    display: block; /* Display on a new line */
+    display: block;
+    margin-top: 10px; /* Display each piece of information on a new line */
 }
 
 .cart-item__price {
@@ -103,11 +105,34 @@
     background-color: #ff1a00;
 }
 
+/* Styles for the payment method dropdown and button */
+#payment-method {
+    font-size: 18px;
+    padding: 10px;
+    margin-top: 20px;
+}
 
+#submit-payment {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+#submit-payment:hover {
+    background-color: #45a049;
+}
 
 {% endblock %}
 
 {% block contents %}
+
+
 
 <h1 class="cart-page__title">Cart</h1>
 <div class="cart-container">
@@ -117,7 +142,7 @@
              class="cart-item__image">
         <div class="cart-item-details">
             <span class="cart-item__name">{{ item.product.product_name }}</span>
-            <span class="cart-item__price">Price: ${{ item.product.get_discounted_price }}</span>
+            <span class="cart-item__price">Price: ${{ item.product.product_price }}</span>
             <div class="cart-item__quantity-container">
                 <span class="cart-item__quantity-label">Quantity:</span>
                 <form id="quantity-update-form">
@@ -130,7 +155,12 @@
     </div>
     {% endfor %}
 </div>
-<button class="checkout-button">Checkout</button>
+<select id="payment-method">
+    <option value="twint">Pay with Twint</option>
+    <option value="bank-transfer">Bank Transfer</option>
+    <option value="email-invoice">Send Invoice via Email</option>
+</select>
+<button id="submit-payment">Submit Payment</button>
 
 
 
