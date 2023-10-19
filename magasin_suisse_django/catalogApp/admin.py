@@ -4,6 +4,7 @@ from .models import Category, Swiper, Product
 
 
 class ProductAdmin(admin.ModelAdmin):
+
     fieldsets = [
         ('Основні дані', {
             'fields': ['product_article', 'product_name',  'product_category', 'product_description', 'product_details']
