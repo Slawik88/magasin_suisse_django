@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+LOGOUT_REDIRECT_URL = 'home'
 
 # Application definition
 

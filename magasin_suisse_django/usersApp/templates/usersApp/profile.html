@@ -1,0 +1,185 @@
+{% extends 'mainapp/base.html' %}
+
+{% block contents %}
+<style>
+    /* Improved Styles for User Profile */
+    .profile-container {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin: 20px auto;
+        max-width: 640px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        text-align: center;
+    }
+
+    .profile-container__title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    .profile-info__item {
+        margin-bottom: 20px;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .profile-info__label {
+        font-weight: bold;
+        color: #0077b6;
+        width: 40%;
+        text-align: left;
+    }
+
+    .profile-info__value {
+        width: 55%;
+        text-align: left;
+    }
+
+    /* Style the user's name with a larger font size and color */
+    .profile-info__item strong.profile-info__label {
+        font-size: 20px;
+    }
+
+    /* Add a hover effect for profile items */
+    .profile-info__item:hover {
+        background-color: #e0e0e0;
+        transition: background-color 0.3s;
+    }
+
+    /* Style links */
+    a {
+        color: #0077b6;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Add a subtle border for separation */
+    .profile-container hr {
+        border: 0.5px solid #ddd;
+        margin: 20px 0;
+    }
+
+    /* Style the "Edit" button */
+    .edit-button {
+        background-color: #0077b6;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .edit-button:hover {
+        background-color: #005577;
+    }
+
+    .login-button {
+        background-color: #009900;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+        background-color: #006600;
+    }
+
+        .button {
+        background-color: #0077b6;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .button:hover {
+        background-color: #005577;
+    }
+
+    .login-button {
+        background-color: #009900;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+        background-color: #006600;
+    }
+</style>
+<div class="profile-container">
+    <h2 class="profile-container__title">User Profile</h2>
+    <div class="profile-info">
+        <p class="profile-info__item"><strong class="profile-info__label">Username:</strong> <span class="profile-info__value" id="username">{{ user.username }}</span></p>
+        <p class="profile-info__item"><strong class="profile-info__label">Email:</strong> <span class="profile-info__value" id="email">{{ user.email }}</span></p>
+        <p class="profile-info__item"><strong class="profile-info__label">First Name:</strong> <span class="profile-info__value" id="first_name">{{ user.first_name }}</span></p>
+        <p class="profile-info__item"><strong class="profile-info__label">Last Name:</strong> <span class="profile-info__value" id="last_name">{{ user.last_name }}</span></p>
+        <p class="profile-info__item"><strong class="profile-info__label">Phone Number:</strong> <span class="profile-info__value" id="phone_number">{{ user.phone_number }}</span></p>
+        <p class="profile-info__item"><strong class="profile-info__label">Shipping Address:</strong> <span class="profile-info__value" id="shipping_address">{{ user.shipping_address }}</span></p>
+        <p class="profile-info__item"><strong class="profile-info__label">Joined Since:</strong> <span class="profile-info__value" id="date_joined">{{ user.date_joined }}</span></p>
+        <p class="profile-info__item"><strong class="profile-info__label">Account Status:</strong> <span class="profile-info__value">Active</span></p>
+        <p class="profile-info__item"><strong class="profile-info__label">Last Login:</strong> <span class="profile-info__value" id="last_login">{{ user.last_login }}</span></p>
+        <hr>
+        {% if user.is_authenticated %}
+            <p class="profile-info__item">
+                <strong class="profile-info__label">Profile Edit:</strong>
+                <a class="edit-button" id="edit-button" href="{% url 'edit_profile' %}">Edit</a>
+                <button class="button" id="logout-button">Logout</button>
+            </p>
+        {% else %}
+            <p class="profile-info__item">
+                <strong class="profile-info__label">User Actions:</strong>
+                <a class="login-button" href="{% url 'login' %}">Log In</a>
+                <a class="edit-button" id="registration-button" href="{% url 'register' %}">Registration</a>
+            </p>
+            <p class="profile-info__item"><strong class="profile-info__label">Message:</strong> Please log in or register to access your profile.</p>
+        {% endif %}
+    </div>
+
+    <!-- Edit Profile Form (Initially Hidden) -->
+    <form class="edit-profile-form" id="edit-profile-form" style="display: none">
+        <!-- Input fields for editing user information -->
+        <input type="text" id="edit-username" placeholder="Username">
+        <input type="text" id="edit-email" placeholder="Email">
+        <input type="text" id="edit-first-name" placeholder="First Name">
+        <input type="text" id="edit-last-name" placeholder="Last Name">
+        <input type="text" id="edit-phone-number" placeholder="Phone Number">
+        <input type="text" id="edit-shipping-address" placeholder="Shipping Address">
+
+        <!-- Save and Cancel buttons for the form -->
+        <button class="button" id="save-button">Save</button>
+        <button class="button" id="cancel-button">Cancel</button>
+    </form>
+</div>
+
+<script>
+    // JavaScript для кнопки "Logout"
+    const logoutButton = document.getElementById("logout-button");
+
+    logoutButton.addEventListener("click", function () {
+        const confirmLogout = confirm("Are you sure you want to logout?");
+        if (confirmLogout) {
+            // Перенаправление на URL выхода из аккаунта
+            window.location.href = "{% url 'logout' %}";
+        }
+    });
+</script>
+{% endblock %}

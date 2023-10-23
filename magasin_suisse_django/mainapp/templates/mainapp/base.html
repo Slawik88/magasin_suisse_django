@@ -309,7 +309,7 @@
             </form>
         </div>
         <div class="user-controls">
-            <a href="{% url 'register' %}"><i class="fas fa-user"></i>{{ username|default:"Your account" }}</a>
+            <a href="{% url 'profile' %}"><i class="fas fa-user"></i>{{ username|default:"Your account" }}</a>
             <a href="{% url 'cart' %}">
                 <i class="fas fa-shopping-cart"></i>
                 <span id="cart-total-amount">{{ cart_total }}</span> $

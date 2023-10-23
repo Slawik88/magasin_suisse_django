@@ -1,0 +1,120 @@
+{% extends 'mainapp/base.html' %}
+
+{% block contents %}
+<style>
+    /* Improved Styles for Edit Profile Page */
+    .edit-profile-container {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        max-width: 640px;
+        margin: 20px auto;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .edit-profile-container__title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    .edit-profile-form {
+        text-align: left;
+        margin: 20px auto;
+    }
+
+    .input-section {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0; /* Added margin for separation between sections */
+    }
+
+    .input-section label {
+        font-weight: bold;
+        color: #0077b6;
+        width: 40%;
+        text-align: left;
+    }
+
+    .input-section input[type="text"], .input-section input[type="email"] {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 18px;
+        background: #f9f9f9;
+        color: #333;
+    }
+
+    .edit-profile-form button {
+        background-color: #0077b6;
+        color: #fff;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .edit-profile-form button:hover {
+        background-color: #005577;
+    }
+
+    .edit-profile-form button:disabled {
+        background-color: #ddd;
+        cursor: not-allowed;
+    }
+
+    .edit-profile-form button:disabled:hover {
+        background-color: #ddd;
+
+        /* Style the input section */
+.input-section {
+    margin-bottom: 20px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+    }
+</style>
+<div class="edit-profile-container">
+    <h2 class="edit-profile-container__title">Edit Your Profile</h2>
+    <form class="edit-profile-form" method="post">
+        {% csrf_token %}
+        <div class="input-section">
+            <label for="{{ form.username.id_for_label }}">Username:</label>
+            {{ form.username }}
+        </div>
+        <div class="input-section">
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+        </div>
+        <div class="input-section">
+            <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+            {{ form.first_name }}
+        </div>
+        <div class="input-section">
+            <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+            {{ form.last_name }}
+        </div>
+        <div class="input-section">
+            <label for="{{ form.phone_number.id_for_label }}">Phone Number:</label>
+            {{ form.phone_number }}
+        </div>
+        <div class="input-section">
+            <label for="{{ form.shipping_address.id_for_label }}">Shipping Address:</label>
+            {{ form.shipping_address }}
+        </div>
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
+{% endblock %}
