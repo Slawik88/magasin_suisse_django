@@ -215,6 +215,23 @@
             }
         }
 
+    /* Стили для надписей "Зарегистрироваться" и "Войти в систему" */
+.registration-reminder {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    border: 2px solid #ff6b3c;
+    color: red;
+}
+
+.registration-reminder a {
+    color: #0077b6; /* Цвет ссылок */
+    text-decoration: underline; /* Подчеркивание ссылок */
+}
+
+.registration-reminder a:hover {
+    text-decoration: none; /* Убрать подчеркивание при наведении */
+}
 </style>
 
 <div class="product-page">
@@ -255,15 +272,27 @@
             {% endif %}
         </div>
     </div>
+
     <div class="product-details">
         <div class="product-info">
-            <h1 class="product-name">{{ product.product_name }}</h1>
-            <p class="product-article">Артикул: {{ product.product_article }}</p>
-            <p class="product-price">Цена: {{ product.product_price }} грн</p>
-            {% if product.product_discount_price %}
-            <p class="discounted-price">Специальная цена: {{ product.product_discount_price }} грн</p>
+
+
+            {% if not user.is_authenticated %}
+            <div class="registration-reminder">
+                <p>To add a product to the cart, you need to <a href="{% url 'register' %}">register</a> or <a
+                        href="{% url 'login' %}">log in</a>.</p>
+            </div>
             {% endif %}
-            <p class="product-category">Категория: {{ product.product_category }}</p>
+
+
+            <h1 class="product-name">{{ product.product_name }}</h1>
+            <p class="product-article">Article: {{ product.product_article }}</p>
+            <p class="product-price">Price: {{ product.product_price }} UAH</p>
+            {% if product.product_discount_price %}
+            <p class="discounted-price">Special Price: {{ product.product_discount_price }} FR</p>
+            {% endif %}
+            <p class="product-category">Category: {{ product.product_category }}</p>
+
             <div class="button-container">
                 <button class="primary-button">Buy</button>
                 <button class="secondary-button" id="add-to-basket-button"
@@ -272,20 +301,26 @@
 
 
             </div>
-
         </div>
         <div class="product-description">
-            <h2>Описание товара</h2>
+            <h2>Product Description</h2>
             <p>{{ product.product_description }}</p>
         </div>
         <div class="additional-info">
-            <h2>Дополнительные детали</h2>
+            <h2>Additional Details</h2>
             <div class="additional-details">
-                <div class="">{{ product.product_details }}</div>
+                <div>{{ product.product_details }}</div>
             </div>
         </div>
     </div>
 </div>
+
+{% if not user.is_authenticated %}
+<div class="registration-reminder">
+    <p>To add a product to the cart, you need to <a href="{% url 'register' %}">register</a> or <a
+            href="{% url 'login' %}">log in</a>.</p>
+</div>
+{% endif %}
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
