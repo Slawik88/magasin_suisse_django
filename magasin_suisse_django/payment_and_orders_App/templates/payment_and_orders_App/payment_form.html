@@ -1,0 +1,218 @@
+{% extends 'mainApp/base.html' %}
+
+{% block contents %}
+<style>
+    /* Common Styles */
+    .payment-and-orders-App-container {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin: 20px auto;
+        max-width: 640px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        text-align: center;
+    }
+
+    .payment-and-orders-App-title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    /* Form Field Styles */
+    .payment-and-orders-App-form-field {
+        margin-bottom: 20px;
+    }
+
+    .payment-and-orders-App-label {
+        font-weight: bold;
+        color: #0077b6;
+        text-align: left;
+        display: block;
+    }
+
+    .payment-and-orders-App-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: border-color 0.3s;
+    }
+
+    .payment-and-orders-App-input:focus {
+        border-color: #0077b6;
+    }
+
+    .payment-and-orders-App-help-text {
+        color: #777;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    /* Radio Select Styles */
+    .payment-and-orders-App-radio-select {
+        display: flex;
+        align-items: center;
+    }
+
+    .payment-and-orders-App-radio-label {
+        margin-right: 10px;
+    }
+
+    /* Textarea Styles */
+    .payment-and-orders-App-textarea {
+        width: 100%;
+        max-width: 100%;
+        height: 130px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: border-color 0.3s;
+    }
+
+    .payment-and-orders-App-textarea:focus {
+        border-color: #0077b6;
+    }
+
+    /* Button Styles */
+    .payment-and-orders-App-button {
+        background-color: #0077b6;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .payment-and-orders-App-button:hover {
+        background-color: #005577;
+    }
+
+
+    /* Стили для таблицы */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table th, .table td {
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #e5e5e5;
+}
+
+.table th {
+    background-color: #f5f5f5;
+}
+
+.product-image {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+/* Стили для реквизитов */
+.requisites {
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #f5f5f5;
+}
+
+.requisites-label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+<div class="payment-and-orders-App-container">
+
+    <form method="post" action="{% url 'payment_form_success' %}">
+        {% csrf_token %}
+        <h2 class="payment-and-orders-App-title">Форма оплаты</h2>
+        <table class="table table-striped">  <!-- Добавляем классы для стилизации -->
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Изображение</th>
+                    <th>Итоговая цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cart_item in cart_items %}
+                <tr>
+                    <td>{{ cart_item.product.product_name }}</td>
+                    <td>{{ cart_item.quantity }}</td>
+                    <td>{{ cart_item.product.product_price }} грн</td>
+                    <td>
+                        <img src="{{ cart_item.product.product_main_image.url }}" alt="{{ cart_item.product.product_name }}" class="product-image">
+                    </td>
+                    <td>{{ cart_item.total_price }} грн</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <!-- Вывод общей стоимости корзины -->
+    <p>Общая стоимость: {{ total_price }} грн</p>
+
+
+
+
+        <div class="payment-and-orders-App-form-field">
+            <label for="{{ form.first_name.id_for_label }}" class="payment-and-orders-App-label">{{ form.first_name.label_tag }} *</label>
+            <input type="text" class="payment-and-orders-App-input" id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.name }}" value="{{ form.first_name.value }}">
+            <p class="payment-and-orders-App-help-text">{{ form.first_name.help_text }}</p>
+        </div>
+
+        <div class="payment-and-orders-App-form-field">
+            <label for="{{ form.last_name.id_for_label }}" class="payment-and-orders-App-label">{{ form.last_name.label_tag }} *</label>
+            <input type="text" class="payment-and-orders-App-input" id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.name }}" value="{{ form.last_name.value }}">
+            <p class="payment-and-orders-App-help-text">{{ form.last_name.help_text }}</p>
+        </div>
+
+        <div class="payment-and-orders-App-form-field">
+            <label for="{{ form.delivery_address.id_for_label }}" class="payment-and-orders-App-label">{{ form.delivery_address.label_tag }} *</label>
+            <input type="text" class="payment-and-orders-App-input" id="{{ form.delivery_address.id_for_label }}" name="{{ form.delivery_address.name }}" value="{{ form.delivery_address.value }}">
+            <p class="payment-and-orders-App-help-text">{{ form.delivery_address.help_text }}</p>
+        </div>
+
+        <div class="payment-and-orders-App-form-field">
+            <label for="{{ form.delivery_postal_code.id_for_label }}" class="payment-and-orders-App-label">{{ form.delivery_postal_code.label_tag }} *</label>
+            <input type="text" class="payment-and-orders-App-input" id="{{ form.delivery_postal_code.id_for_label }}" name="{{ form.delivery_postal_code.name }}" value="{{ form.delivery_postal_code.value }}">
+            <p class="payment-and-orders-App-help-text">{{ form.delivery_postal_code.help_text }}</p>
+        </div>
+
+        <div class="payment-and-orders-App-form-field">
+            <label for="{{ form.email.id_for_label }}" class="payment-and-orders-App-label">{{ form.email.label_tag }}</label>
+            <input type="email" class="payment-and-orders-App-input" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}" value="{{ form.email.value }}">
+            <p class="payment-and-orders-App-help-text">{{ form.email.help_text }}</p>
+        </div>
+
+
+
+        {% comment %} <div class="payment-and-orders-App-form-field">
+            <label for="{{ form.email.id_for_label }}" class="payment-and-orders-App-label">{{ form.email.label_tag }}</label>
+            <input type="email" class="payment-and-orders-App-input" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}" value="{{ form.email.value }}">
+            <p class="payment-and-orders-App-help-text">{{ form.email.help_text }}</p>
+        </div> {% endcomment %}
+
+
+        <div class="payment-and-orders-App-form-field">
+            <label for="{{ form.notes.id_for_label }}" class="payment-and-orders-App-label">Примечания к заказу</label>
+            <textarea class="payment-and-orders-App-textarea" id="{{ form.notes.id_for_label }}" name="{{ form.notes.name }}">{{ form.notes.value }}</textarea>
+            <p class="payment-and-orders-App-help-text">{{ form.notes.help_text }}</p>
+        </div>
+
+        <input type="submit" class="payment-and-orders-App-button" value="Оплатить">
+    </form>
+</div>
+</body>
+{% endblock %}

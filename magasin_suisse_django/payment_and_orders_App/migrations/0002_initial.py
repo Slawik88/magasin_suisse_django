@@ -10,14 +10,19 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('cartApp', '0001_initial'),
+        ('payment_and_orders_App', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cartitem',
-            name='user',
+            model_name='order',
+            name='customer',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='customerinfo',
+            name='order',
+            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='payment_and_orders_App.order'),
         ),
     ]

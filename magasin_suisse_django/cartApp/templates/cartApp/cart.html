@@ -155,7 +155,7 @@
     </div>
     {% endfor %}
 </div>
-<button id="submit-payment">Submit Payment</button>
+<button onclick="window.location.href = '{% url 'payment_form' %}'" id="submit-payment">Submit Payment</button>
 
 
 

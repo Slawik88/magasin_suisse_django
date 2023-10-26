@@ -11,7 +11,7 @@ def view_cart(request):
         cart_items = CartItem.objects.filter(user=user)
 
         # Вычисляем общую сумму товаров в корзине
-        total_price = sum(item.product.get_discounted_price() * item.quantity for item in cart_items)
+        total_price = sum(item.product.product_price * item.quantity for item in cart_items)
     else:
         user = None
         cart_items = []

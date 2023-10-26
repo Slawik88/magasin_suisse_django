@@ -29,10 +29,10 @@ class Category(MPTTModel):
     category_updated_at = models.DateTimeField(auto_now=True,
                                                verbose_name='Дата оновлення')
 
-    def save(self, *args, **kwargs):
-        # Обновляем слаг перед сохранением объекта
-        self.slug = self._meta.get_field('category_slug').slugify(self.category_name)
-        super().save(*args, **kwargs)
+
+def save(self, *args, **kwargs):
+    self.category_slug = self._meta.get_field('category_slug').slugify(self.category_name)
+    super().save(*args, **kwargs)
 
     class MPTTMeta:
         order_insertion_by = ['category_name']
@@ -47,7 +47,6 @@ class Category(MPTTModel):
 
 
 class Product(models.Model):
-
     product_id = models.AutoField(primary_key=True, unique=True, verbose_name='ID товара')
     product_article = models.IntegerField(db_index=True, verbose_name='Артикул',
                                           help_text='Артикль МОЖЕ повторюватись.')
@@ -108,10 +107,8 @@ class Product(models.Model):
                                                help_text="Відображає дату оновлення товару\nНіде не відображається тільки для адмінів*",
                                                verbose_name="Дата оновлення продукту", )
 
-    product_details = models.TextField(max_length="999", verbose_name="Додаткова інформація", help_text="Вы можете указати колір або розмір ")
-
-
-
+    product_details = models.TextField(max_length="999", verbose_name="Додаткова інформація",
+                                       help_text="Вы можете указати колір або розмір ")
 
     def __str__(self):
         return f'{self.product_article} - {self.product_name}'
@@ -124,11 +121,6 @@ class Product(models.Model):
     class MPTTMeta:
         order_insertion_by = ['product_name']
 
-    def get_discounted_price(self):
-        if self.product_discount_price is not None:
-            return self.product_discount_price
-        else:
-            return self.product_price
 
 
 class Swiper(models.Model):

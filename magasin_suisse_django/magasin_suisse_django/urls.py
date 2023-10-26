@@ -10,7 +10,8 @@ urlpatterns = [
     path('', index_page_view, name='home'),
     path('category/', include('catalogApp.urls')),
     path('cart/', include('cartApp.urls')),
-    path('user/', include('usersApp.urls'))
+    path('user/', include('usersApp.urls')),
+    path('payment-and-orders/', include('payment_and_orders_App.urls'))
 
 ]
 # Добавьте этот код, чтобы указать маршрут для статических файлов
