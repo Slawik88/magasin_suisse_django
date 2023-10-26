@@ -7,6 +7,7 @@ from cartApp.models import CartItem
 from catalogApp.models import Category
 from django.shortcuts import render, redirect
 
+
 def create_order_instance(user, form, cart_items, total_price):
     """
     Создает экземпляр заказа и сохраняет его вместе с пунктами заказа.
@@ -30,6 +31,7 @@ def create_order_instance(user, form, cart_items, total_price):
 
         cart_items.delete()
 
+
 def get_cart_info(user):
     """
     Получает информацию о корзине и общей стоимости.
@@ -42,6 +44,7 @@ def get_cart_info(user):
         total_price += cart_item.total_price
 
     return cart_items, total_price
+
 
 def order_and_payment(request):
     # Query the data you need from your models
@@ -60,6 +63,7 @@ def order_and_payment(request):
         'delivery_address': user_data.shipping_address if user_data else '',
         'email': user_data.email if user_data else '',
         'phone_number': user_data.phone_number if user_data else '',
+        'delivery_postal_code': user_data.postal_code if user_data else '',
     })
 
     context = {
@@ -71,6 +75,7 @@ def order_and_payment(request):
 
     return render(request, 'payment_and_orders_App/payment_form.html', context)
 
+
 def save_order(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -80,7 +85,6 @@ def save_order(request):
             try:
                 create_order_instance(request.user, form, cart_items, total_price)
 
-                
                 return redirect('profile')
 
             except Exception as e:

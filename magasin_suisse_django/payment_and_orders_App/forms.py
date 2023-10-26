@@ -6,61 +6,60 @@ from .models import CustomerInfo
 
 def validate_name(value):
     if not value.isalpha():
-        raise ValidationError("Имя может содержать только буквы.")
+        raise ValidationError("Name can only contain letters.")
 
 def validate_address(value):
     if not re.match(r'^[a-zA-Z0-9\s@#&.,_-]*$', value):
-        raise ValidationError("Адрес содержит недопустимые символы.")
+        raise ValidationError("Address contains invalid characters.")
 
 def validate_postal_code(value):
     if not re.match(r'^\d{4}$', value):
-        raise ValidationError("Почтовый индекс должен содержать ровно 4 цифры.")
+        raise ValidationError("Postal code must contain exactly 4 digits.")
 
 def validate_email(value):
     if not "@" in value:
-        raise ValidationError("Неверный формат email. Email должен содержать символ @.")
+        raise ValidationError("Invalid email format. Email must contain the @ symbol.")
 
 class OrderForm(forms.Form):
     first_name = forms.CharField(
-        label='Имя',
-        help_text='Введите имя получателя.',
+        label='First Name',
+        help_text='Enter the recipient\'s first name.',
         required=True,
         validators=[validate_name]
     )
     last_name = forms.CharField(
-        label='Фамилия',
-        help_text='Введите фамилию получателя.',
+        label='Last Name',
+        help_text='Enter the recipient\'s last name.',
         required=True,
         validators=[validate_name]
     )
 
     delivery_address = forms.CharField(
-        label='Адрес доставки',
-        help_text='Укажите адрес доставки (улица, дом, квартира и др.).',
+        label='Delivery Address',
+        help_text='Specify the delivery address (street, house, apartment, etc.).',
         required=True,
         validators=[validate_address]
     )
 
     delivery_postal_code = forms.CharField(
-        label='Почтовый индекс',
-        help_text='Укажите почтовый индекс.',
+        label='Postal Code',
+        help_text='Specify the postal code.',
         required=True,
         validators=[validate_postal_code]
     )
 
     email = forms.EmailField(
         label='Email',
-        help_text='Укажите ваш адрес электронной почты.',
+        help_text='Enter your email address.',
         validators=[validate_email]
     )
 
     notes = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 4, 'placeholder': 'Дополнительные примечания'}),
+        widget=forms.Textarea(attrs={'rows': 4, 'placeholder': 'Additional Notes'}),
         required=False,
-        label='Примечания к заказу',
-        help_text='Если есть какие-либо дополнительные замечания к заказу, укажите их здесь.'
+        label='Order Notes',
+        help_text='If you have any additional notes for the order, please enter them here.'
     )
-
 
 class CustomerInfoForm(forms.ModelForm):
     class Meta:

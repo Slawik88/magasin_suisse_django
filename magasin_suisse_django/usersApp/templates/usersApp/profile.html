@@ -134,10 +134,18 @@
         <p class="profile-info__item"><strong class="profile-info__label">Last Name:</strong> <span class="profile-info__value" id="last_name">{{ user.last_name }}</span></p>
         <p class="profile-info__item"><strong class="profile-info__label">Phone Number:</strong> <span class="profile-info__value" id="phone_number">{{ user.phone_number }}</span></p>
         <p class="profile-info__item"><strong class="profile-info__label">Shipping Address:</strong> <span class="profile-info__value" id="shipping_address">{{ user.shipping_address }}</span></p>
+
+        <p class="profile-info__item"><strong class="profile-info__label">Postal code:</strong> <span class="profile-info__value" id="postal_code">{{ user.postal_code }}</span></p>
+
         <p class="profile-info__item"><strong class="profile-info__label">Joined Since:</strong> <span class="profile-info__value" id="date_joined">{{ user.date_joined }}</span></p>
         <p class="profile-info__item"><strong class="profile-info__label">Account Status:</strong> <span class="profile-info__value">Active</span></p>
         <p class="profile-info__item"><strong class="profile-info__label">Last Login:</strong> <span class="profile-info__value" id="last_login">{{ user.last_login }}</span></p>
         <hr>
+
+
+
+
+
         {% if user.is_authenticated %}
             <p class="profile-info__item">
                 <strong class="profile-info__label">Profile Edit:</strong>
@@ -164,10 +172,34 @@
         <input type="text" id="edit-phone-number" placeholder="Phone Number">
         <input type="text" id="edit-shipping-address" placeholder="Shipping Address">
 
+
         <!-- Save and Cancel buttons for the form -->
         <button class="button" id="save-button">Save</button>
         <button class="button" id="cancel-button">Cancel</button>
     </form>
+
+
+
+    <div class="profile-container">
+        <h2 class="profile-container__title">User Orders</h2>
+        <ul>
+            {% for order in user_orders %}
+                <li>
+                    <p>Order Date: {{ order.order_date }}</p>
+                    <p>Total Price: ${{ order.total_price }}</p>
+                    <ul>
+                        {% for order_item in order.orderitem_set.all %}
+                            <li>
+                                <p>Product: {{ order_item.product.product_name }}</p>
+                                <p>Quantity: {{ order_item.quantity }}</p>
+                                <p>Item Price: ${{ order_item.item_price }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
 <script>

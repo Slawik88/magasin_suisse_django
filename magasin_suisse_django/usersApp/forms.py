@@ -17,10 +17,10 @@ class CustomUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'shipping_address',
-                  'date_joined']  # Добавьте поля профиля
+                  'date_joined', 'postal_code'] 
 
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'shipping_address']
+        fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'shipping_address', 'postal_code']
