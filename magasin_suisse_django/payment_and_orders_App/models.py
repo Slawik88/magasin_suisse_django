@@ -6,34 +6,39 @@ from usersApp.models import CustomUser
 
 class Order(models.Model):
     ORDER_STATUS_CHOICES = [
-        ('New', 'Новый'),
-        ('Accepted', 'Принят'),
-        ('Paid', 'Оплачен'),
-        ('Completed', 'Выполнен'),
-        ('In Progress', 'В процессе'),
-        ('Preparing for Shipment', 'Готовится к отправке'),
-        ('Being Delivered', 'Доставляется'),
-        ('Delivered', 'Доставлен'),
-        ('Canceled', 'Отменен'),
+        ('New', 'Новий'),
+        ('Accepted', 'Прийнятий'),
+        ('Paid', 'Сплачений'),
+        ('Completed', 'Виконаний'),
+        ('In Progress', 'В процесі'),
+        ('Preparing for Shipment', 'Готується до відправлення'),
+        ('Being Delivered', 'Доставляється'),
+        ('Delivered', 'Доставлений'),
+        ('Canceled', 'Скасований'),
     ]
 
-    status = models.CharField(max_length=225, choices=ORDER_STATUS_CHOICES, default='Новый')
+    status = models.CharField(max_length=225, choices=ORDER_STATUS_CHOICES, default='Новий', verbose_name='Статус')
 
     customer = models.ForeignKey(CustomUser,
-                                 on_delete=models.CASCADE)  # Предполагается, что вы используете встроенную модель пользователя
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+                                 on_delete=models.CASCADE,
+                                 verbose_name='Користувач')  # Припускається, що ви використовуєте вбудовану модель користувача
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата оновлення')
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Загальна вартість')
 
     def __str__(self):
-        return f'Order #{self.pk} by {self.customer.username}'
+        return f'Замовлення №{self.pk} від {self.customer.username}'
+
+    class Meta:
+        verbose_name = 'Замовлення'
+        verbose_name_plural = 'Замовлення'
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)  # Замените Product на свою модель товаров
-    quantity = models.PositiveIntegerField(default=1)
-    item_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name='Замовлення')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+    quantity = models.PositiveIntegerField(default=1, verbose_name='Кількість')
+    item_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Ціна товару')
 
     def save(self, *args, **kwargs):
         self.item_price = self.product.product_price * self.quantity
@@ -42,15 +47,23 @@ class OrderItem(models.Model):
     def __str__(self):
         return f'{self.quantity} x {self.product.product_name}'
 
+    class Meta:
+        verbose_name = 'Позиція замовлення'
+        verbose_name_plural = 'Позиції замовлення'
+
 
 class CustomerInfo(models.Model):
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    delivery_address = models.TextField()
-    delivery_postal_code = models.CharField(max_length=10)
-    email = models.EmailField()
-    notes = models.TextField(blank=True)  # Make notes optional
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, verbose_name='Замовлення')
+    first_name = models.CharField(max_length=100, verbose_name="Ім'я")
+    last_name = models.CharField(max_length=100, verbose_name='Прізвище')
+    delivery_address = models.TextField(verbose_name='Адреса доставки')
+    delivery_postal_code = models.CharField(max_length=10, verbose_name='Поштовий індекс')
+    email = models.EmailField(verbose_name='Електронна пошта')
+    notes = models.TextField(blank=True, verbose_name='Примітки')  # Зробити примітки необов'язковими
 
     def __str__(self):
-        return f'Customer Info for Order #{self.order.pk}'
+        return f'Інформація про клієнта для замовлення №{self.order.pk}'
+
+    class Meta:
+        verbose_name = 'Інформація про клієнта'
+        verbose_name_plural = 'Інформація про клієнтів'

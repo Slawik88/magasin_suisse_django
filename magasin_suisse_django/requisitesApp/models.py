@@ -13,5 +13,6 @@ class Requisites(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Реквизиты'
-        verbose_name_plural = 'Реквизиты'
+        verbose_name = 'Реквізити'
+        verbose_name_plural = 'Реквізити'
+

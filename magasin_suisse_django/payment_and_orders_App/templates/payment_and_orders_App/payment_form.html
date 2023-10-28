@@ -129,10 +129,8 @@
     margin-bottom: 10px;
 }
 </style>
-</head>
-<body>
-<div class="payment-and-orders-App-container">
 
+<div class="payment-and-orders-App-container">
     <form method="post" action="{% url 'payment_form_success' %}">
         {% csrf_token %}
         <h2 class="payment-and-orders-App-title">Форма оплаты</h2>
@@ -163,46 +161,35 @@
     <!-- Вывод общей стоимости корзины -->
     <p>Общая стоимость: {{ total_price }} грн</p>
 
-
-
-
         <div class="payment-and-orders-App-form-field">
             <label for="{{ form.first_name.id_for_label }}" class="payment-and-orders-App-label">{{ form.first_name.label_tag }} *</label>
-            <input type="text" class="payment-and-orders-App-input" id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.name }}" value="{{ form.first_name.value }}">
+            <input required type="text" class="payment-and-orders-App-input" id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.name }}" value="{{ form.first_name.value }}">
             <p class="payment-and-orders-App-help-text">{{ form.first_name.help_text }}</p>
         </div>
 
         <div class="payment-and-orders-App-form-field">
             <label for="{{ form.last_name.id_for_label }}" class="payment-and-orders-App-label">{{ form.last_name.label_tag }} *</label>
-            <input type="text" class="payment-and-orders-App-input" id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.name }}" value="{{ form.last_name.value }}">
+            <input required type="text" class="payment-and-orders-App-input" id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.name }}" value="{{ form.last_name.value }}">
             <p class="payment-and-orders-App-help-text">{{ form.last_name.help_text }}</p>
         </div>
 
         <div class="payment-and-orders-App-form-field">
             <label for="{{ form.delivery_address.id_for_label }}" class="payment-and-orders-App-label">{{ form.delivery_address.label_tag }} *</label>
-            <input type="text" class="payment-and-orders-App-input" id="{{ form.delivery_address.id_for_label }}" name="{{ form.delivery_address.name }}" value="{{ form.delivery_address.value }}">
+            <input required type="text" class="payment-and-orders-App-input" id="{{ form.delivery_address.id_for_label }}" name="{{ form.delivery_address.name }}" value="{{ form.delivery_address.value }}">
             <p class="payment-and-orders-App-help-text">{{ form.delivery_address.help_text }}</p>
         </div>
 
         <div class="payment-and-orders-App-form-field">
             <label for="{{ form.delivery_postal_code.id_for_label }}" class="payment-and-orders-App-label">{{ form.delivery_postal_code.label_tag }} *</label>
-            <input type="text" class="payment-and-orders-App-input" id="{{ form.delivery_postal_code.id_for_label }}" name="{{ form.delivery_postal_code.name }}" value="{{ form.delivery_postal_code.value }}">
+            <input required type="text" class="payment-and-orders-App-input" id="{{ form.delivery_postal_code.id_for_label }}" name="{{ form.delivery_postal_code.name }}" value="{{ form.delivery_postal_code.value }}">
             <p class="payment-and-orders-App-help-text">{{ form.delivery_postal_code.help_text }}</p>
         </div>
 
         <div class="payment-and-orders-App-form-field">
-            <label for="{{ form.email.id_for_label }}" class="payment-and-orders-App-label">{{ form.email.label_tag }}</label>
-            <input type="email" class="payment-and-orders-App-input" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}" value="{{ form.email.value }}">
+            <label for="{{ form.email.id_for_label }}" class="payment-and-orders-App-label">{{ form.email.label_tag }} *</label>
+            <input required type="email" class="payment-and-orders-App-input" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}" value="{{ form.email.value }}">
             <p class="payment-and-orders-App-help-text">{{ form.email.help_text }}</p>
         </div>
-
-
-
-        {% comment %} <div class="payment-and-orders-App-form-field">
-            <label for="{{ form.email.id_for_label }}" class="payment-and-orders-App-label">{{ form.email.label_tag }}</label>
-            <input type="email" class="payment-and-orders-App-input" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}" value="{{ form.email.value }}">
-            <p class="payment-and-orders-App-help-text">{{ form.email.help_text }}</p>
-        </div> {% endcomment %}
 
 
         <div class="payment-and-orders-App-form-field">
@@ -214,5 +201,5 @@
         <input type="submit" class="payment-and-orders-App-button" value="Оплатить">
     </form>
 </div>
-</body>
+
 {% endblock %}

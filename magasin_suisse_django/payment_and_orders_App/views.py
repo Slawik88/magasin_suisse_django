@@ -1,22 +1,23 @@
 from django.db import transaction
 from django.http import JsonResponse
-from .models import Order, OrderItem
-from .forms import OrderForm
-from .models import CustomUser
+from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
+
 from cartApp.models import CartItem
 from catalogApp.models import Category
-from django.shortcuts import render, redirect
+from .forms import OrderForm
+from .models import CustomUser, Order, OrderItem, CustomerInfo
 
 
-def create_order_instance(user, form, cart_items, total_price):
+def create_order_instance(user, form, cart_items, total_price, first_name=None, last_name=None):
     """
     Создает экземпляр заказа и сохраняет его вместе с пунктами заказа.
     """
-    with transaction.atomic():
+    with transaction.atomic():  # Используем транзакции для атомарности операций
         order = Order(
-            customer=user,
+            customer=user,  # Устанавливаем пользователя, сделавшего заказ
             total_price=total_price,
-            # Устанавливайте остальные поля формы
+            # Дополнительные поля формы могут быть установлены здесь
         )
         order.save()
 
@@ -29,7 +30,15 @@ def create_order_instance(user, form, cart_items, total_price):
             )
             order_item.save()
 
-        cart_items.delete()
+        if first_name is not None and last_name is not None:
+            customer_info = CustomerInfo(
+                order=order,
+                first_name=first_name,
+                last_name=last_name,
+            )
+            customer_info.save()
+
+        cart_items.delete()  # Удаляем товары из корзины после создания заказа
 
 
 def get_cart_info(user):
@@ -47,24 +56,24 @@ def get_cart_info(user):
 
 
 def order_and_payment(request):
-    # Query the data you need from your models
+    # Запрашиваем данные из моделей, которые потребуются для формы заказа
     categories = Category.objects.all()
 
-    cart_items, total_price = get_cart_info(request.user)
+    # Получаем данные о пользователе. Если пользователя не существует, получим 404 ошибку
+    user_data = get_object_or_404(CustomUser, pk=request.user.pk)
 
-    try:
-        user_data = CustomUser.objects.get(pk=request.user.pk)
-    except CustomUser.DoesNotExist:
-        user_data = None
-
+    # Создаем экземпляр формы заказа и предзаполняем данными пользователя
     form = OrderForm(initial={
-        'first_name': user_data.first_name if user_data else '',
-        'last_name': user_data.last_name if user_data else '',
-        'delivery_address': user_data.shipping_address if user_data else '',
-        'email': user_data.email if user_data else '',
-        'phone_number': user_data.phone_number if user_data else '',
-        'delivery_postal_code': user_data.postal_code if user_data else '',
+        'first_name': user_data.first_name,
+        'last_name': user_data.last_name,
+        'delivery_address': user_data.shipping_address,
+        'email': user_data.email,
+        'phone_number': user_data.phone_number,
+        'delivery_postal_code': user_data.postal_code,
     })
+
+    # Получаем информацию о корзине и общей стоимости
+    cart_items, total_price = get_cart_info(request.user)
 
     context = {
         'form': form,
@@ -80,13 +89,18 @@ def save_order(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
+            # Получаем информацию о корзине и общей стоимости товаров
             cart_items, total_price = get_cart_info(request.user)
+            first_name = request.user.first_name
+            last_name = request.user.last_name
 
             try:
-                create_order_instance(request.user, form, cart_items, total_price)
-
-                return redirect('profile')
+                create_order_instance(request.user, form, cart_items, total_price, first_name, last_name)
+                return redirect('profile')  # Перенаправляем пользователя на страницу профиля после создания заказа
 
             except Exception as e:
-                return JsonResponse({'success': False, 'message': f'Error: {str(e)}'})
-    return JsonResponse({'success': False, 'message': 'Invalid form data.'})
+                return JsonResponse(
+                    {'success': False, 'message': f'Ошибка: {str(e)}'})  # В случае ошибки возвращаем JSON-ответ
+
+    return JsonResponse(
+        {'success': False, 'message': 'Недопустимые данные формы.'})  # Возвращаем JSON-ответ при неверных данных формы
